@@ -40,7 +40,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             DI_Tema5_HojasInferioresTheme {
                 //Ventana()
-                Ventana2()
+                //Ventana2()
+                Ventana3()
             }
         }
     }
@@ -133,6 +134,42 @@ fun Ventana2() {
                 onClick = {
 
                 })
+        }
+    }
+}
+
+// menús desplegables con una lista
+@Composable
+fun Ventana3() {
+    var menuVisible by remember { mutableStateOf(false) }
+    var lista = List(100) {"Opcion ${it + 1}"}
+
+    Box(
+        modifier = Modifier
+            .padding(16.dp)
+    ) {
+        IconButton(onClick = {
+            menuVisible = !menuVisible
+        }) {
+            Icon(
+                imageVector = Icons.Default.Menu,
+                contentDescription = "Menu"
+            )
+        }
+
+        // se abre el menú
+        DropdownMenu(
+            expanded = menuVisible,
+            onDismissRequest = {
+                menuVisible = false
+            }
+        ) {
+            lista.forEach {elemento ->
+                DropdownMenuItem(
+                    text = { Text(elemento) },
+                    onClick = {
+                    })
+            }
         }
     }
 }

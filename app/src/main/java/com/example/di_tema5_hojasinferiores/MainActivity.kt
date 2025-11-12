@@ -12,10 +12,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.outlined.Call
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
@@ -41,7 +45,8 @@ class MainActivity : ComponentActivity() {
             DI_Tema5_HojasInferioresTheme {
                 //Ventana()
                 //Ventana2()
-                Ventana3()
+                //Ventana3()
+                Ventana4()
             }
         }
     }
@@ -98,7 +103,7 @@ fun Ventana() {
     }
 }
 
-// menús desplegables
+// menú desplegable
 @Composable
 fun Ventana2() {
     var menuVisible by remember { mutableStateOf(false) }
@@ -138,7 +143,7 @@ fun Ventana2() {
     }
 }
 
-// menús desplegables con una lista
+// menú desplegable con una lista
 @Composable
 fun Ventana3() {
     var menuVisible by remember { mutableStateOf(false) }
@@ -170,6 +175,69 @@ fun Ventana3() {
                     onClick = {
                     })
             }
+        }
+    }
+}
+
+// menú desplegable avanzado
+@Composable
+fun Ventana4() {
+    var menuVisible by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = Modifier
+            .padding(16.dp)
+    ) {
+        IconButton(onClick = {
+            menuVisible = !menuVisible
+        }) {
+            Icon(
+                imageVector = Icons.Default.Menu,
+                contentDescription = "Menu"
+            )
+        }
+
+        // se abre el menú
+        DropdownMenu(
+            expanded = menuVisible,
+            onDismissRequest = {
+                menuVisible = false
+            }
+        ) {
+            DropdownMenuItem(
+                text = { Text("Menu 1") },
+                onClick = {
+
+                },
+                leadingIcon = {Icon(
+                    imageVector = Icons.Outlined.Build,
+                    contentDescription = "menu 1"
+                )})
+
+            HorizontalDivider()
+
+            DropdownMenuItem(
+                text = { Text("Menu 2") },
+                onClick = {
+
+                },
+                leadingIcon = {Icon(
+                    imageVector = Icons.Outlined.Call,
+                    contentDescription = "menu 2"
+                )})
+
+            HorizontalDivider()
+
+            // icono al final
+            DropdownMenuItem(
+                text = { Text("Menu 3") },
+                onClick = {
+
+                },
+                trailingIcon = {Icon(
+                    imageVector = Icons.Outlined.Delete,
+                    contentDescription = "menu 3"
+                )})
         }
     }
 }

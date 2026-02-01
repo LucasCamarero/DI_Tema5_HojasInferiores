@@ -7,14 +7,18 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.outlined.Build
-import androidx.compose.material.icons.outlined.Call
-import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.ExitToApp
+import androidx.compose.material.icons.automirrored.outlined.Send
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -33,6 +37,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.unit.dp
 import com.example.di_tema5_hojasinferiores.ui.theme.DI_Tema5_HojasInferioresTheme
 import kotlinx.coroutines.launch
@@ -43,10 +48,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DI_Tema5_HojasInferioresTheme {
-                //Ventana()
-                //Ventana2()
-                //Ventana3()
-                Ventana4()
+                Column {
+                    //Ventana()
+                    Spacer(modifier = Modifier.padding(30.dp))
+                    BasicDropdownMenu()
+                    ScrollableDropdownMenu()
+                    AdvancedDropdownMenu()
+                }
             }
         }
     }
@@ -103,141 +111,106 @@ fun Ventana() {
     }
 }
 
-// menú desplegable
 @Composable
-fun Ventana2() {
-    var menuVisible by remember { mutableStateOf(false) }
+fun BasicDropdownMenu() {
+    var expanded by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = Modifier
-            .padding(16.dp)
-    ) {
-        IconButton(onClick = {
-            menuVisible = !menuVisible
-        }) {
-            Icon(
-                imageVector = Icons.Default.Menu,
-                contentDescription = "Menu"
-            )
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp)) {
+        IconButton(onClick = { expanded = !expanded }) {
+            Icon(Icons.Default.MoreVert, contentDescription = "Más opciones")
         }
 
-        // se abre el menú
         DropdownMenu(
-            expanded = menuVisible,
-            onDismissRequest = {
-                menuVisible = false
-            }
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
         ) {
             DropdownMenuItem(
-                text = { Text("Menu 1") },
-                onClick = {
-
-            })
-
+                text = { Text("Opción 1") },
+                onClick = { /* Acción para la opción 1 */ }
+            )
             DropdownMenuItem(
-                text = { Text("Menu 2") },
-                onClick = {
-
-                })
+                text = { Text("Opción 2") },
+                onClick = { /* Acción para la opción 2 */ }
+            )
         }
     }
 }
 
-// menú desplegable con una lista
 @Composable
-fun Ventana3() {
-    var menuVisible by remember { mutableStateOf(false) }
-    var lista = List(100) {"Opcion ${it + 1}"}
+fun ScrollableDropdownMenu() {
+    var expanded by remember { mutableStateOf(false) }
+    val options = List(100) { "Opción ${it + 1}" }
 
-    Box(
-        modifier = Modifier
-            .padding(16.dp)
-    ) {
-        IconButton(onClick = {
-            menuVisible = !menuVisible
-        }) {
-            Icon(
-                imageVector = Icons.Default.Menu,
-                contentDescription = "Menu"
-            )
+    Box(modifier = Modifier.padding(16.dp)) {
+        IconButton(onClick = { expanded = !expanded }) {
+            Icon(Icons.Default.MoreVert, contentDescription = "Más opciones")
         }
 
-        // se abre el menú
         DropdownMenu(
-            expanded = menuVisible,
-            onDismissRequest = {
-                menuVisible = false
-            }
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
         ) {
-            lista.forEach {elemento ->
+            options.forEach { option ->
                 DropdownMenuItem(
-                    text = { Text(elemento) },
-                    onClick = {
-                    })
+                    text = { Text(option) },
+                    onClick = { /* Acción para $option */ }
+                )
             }
         }
     }
 }
 
-// menú desplegable avanzado
 @Composable
-fun Ventana4() {
-    var menuVisible by remember { mutableStateOf(false) }
+fun AdvancedDropdownMenu() {
+    var expanded by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = Modifier
-            .padding(16.dp)
-    ) {
-        IconButton(onClick = {
-            menuVisible = !menuVisible
-        }) {
-            Icon(
-                imageVector = Icons.Default.Menu,
-                contentDescription = "Menu"
-            )
+    Box(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+        IconButton(onClick = { expanded = !expanded }) {
+            Icon(Icons.Default.MoreVert, contentDescription = "Más opciones")
         }
 
-        // se abre el menú
         DropdownMenu(
-            expanded = menuVisible,
-            onDismissRequest = {
-                menuVisible = false
-            }
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
         ) {
+            // Sección 1
             DropdownMenuItem(
-                text = { Text("Menu 1") },
-                onClick = {
-
-                },
-                leadingIcon = {Icon(
-                    imageVector = Icons.Outlined.Build,
-                    contentDescription = "menu 1"
-                )})
+                text = { Text("Perfil") },
+                leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) },
+                onClick = { /* Ir al perfil */ }
+            )
+            DropdownMenuItem(
+                text = { Text("Configuración") },
+                leadingIcon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
+                onClick = { /* Ir a configuración */ }
+            )
 
             HorizontalDivider()
 
+            // Sección 2
             DropdownMenuItem(
-                text = { Text("Menu 2") },
-                onClick = {
-
-                },
-                leadingIcon = {Icon(
-                    imageVector = Icons.Outlined.Call,
-                    contentDescription = "menu 2"
-                )})
+                text = { Text("Enviar feedback") },
+                leadingIcon = { Icon(Icons.AutoMirrored.Outlined.ExitToApp, contentDescription = null) },
+                trailingIcon = { Icon(Icons.AutoMirrored.Outlined.Send, contentDescription = null) },
+                onClick = { /* Enviar comentarios */ }
+            )
 
             HorizontalDivider()
 
-            // icono al final
+            // Sección 3
             DropdownMenuItem(
-                text = { Text("Menu 3") },
-                onClick = {
-
-                },
-                trailingIcon = {Icon(
-                    imageVector = Icons.Outlined.Delete,
-                    contentDescription = "menu 3"
-                )})
+                text = { Text("Acerca de") },
+                leadingIcon = { Icon(Icons.Outlined.Info, contentDescription = null) },
+                onClick = { /* Mostrar información */ }
+            )
+            DropdownMenuItem(
+                text = { Text("Ayuda") },
+                leadingIcon = { Icon(Icons.AutoMirrored.Outlined.Send, contentDescription = null) },
+                trailingIcon = { Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = null) },
+                onClick = { /* Abrir ayuda */ }
+            )
         }
     }
 }

@@ -49,10 +49,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             DI_Tema5_HojasInferioresTheme {
                 Column {
+                    // HOJA INFERIOR
                     //Ventana()
                     Spacer(modifier = Modifier.padding(30.dp))
+                    // MENU LATERAL BASICO
                     BasicDropdownMenu()
+                    // MENU LATERAL CON SCROLL
                     ScrollableDropdownMenu()
+                    // MENU LATERAL CON ICONOS
                     AdvancedDropdownMenu()
                 }
             }
@@ -60,7 +64,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// mostrar y ocultar hojas inferiores
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Ventana() {
